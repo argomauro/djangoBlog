@@ -13,7 +13,7 @@ SECRET_KEY = 'k6osz!5835c0ma%cdjoy8y2f)8mqhf%!#*x%otis=b^r%f%7-='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog_app.apps.BlogAppConfig',
     'django.contrib.admin',
+
 
 
 ]
@@ -110,7 +111,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-LOGIN_REDIRECT_URL = 'blog:dashboard'
+print('STATIC_ROOT: ' +STATIC_ROOT)
+print('STATIC_URL: ' +STATIC_URL)
+
+LOGIN_REDIRECT_URL = 'blog_app:dashboard'
 #LOGOUT_REDIRECT_URL = 'dashboard'
-LOGIN_URL = 'blog:login'
-LOGOUT_URL = 'blog:logout'
+LOGIN_URL = 'blog_app:login'
+LOGOUT_URL = 'blog_app:logout'

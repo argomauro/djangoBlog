@@ -5,4 +5,17 @@
 
 <div class='jumbotron'>
     <h2>Post List Page</h2>
+    {% for post in post_list%}
+
+    <div class='post'>
+        <h1>
+            <a href="{%url 'blog_app:post_detail' pk=post.pk %}">{{post.title}}</a>
+        </h1>
+        <div class="date">
+            <p>Published on: {{post.publish_date | date:"D M Y"}}</p>
+        </div>
+        <a href="{% url 'blog_app:post_detail' pk=post.pk %}">Comments: {{ post.comments.count }}</a>
+    </div>{%endfor%}
+
+
 </div>{%endblock%}

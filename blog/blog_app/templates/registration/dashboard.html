@@ -8,11 +8,11 @@
     {% if request.user.is_authenticated %}
     <h3>Benvenuto {{request.user.username}}</h3>
     <h3>Esci
-        <a href="{% url 'blog:logout' %}"> clicca qui</a> </h3>
+        <a href="{% url 'blog_app:logout' %}"> clicca qui</a> </h3>
     {% else %}
     <h3>Prima di accedere alle funzionalità del Blog devi autenticarti</h3>
     <h3>Clicca
-        <a href="{% url 'blog:login' %}"> QUI</a> per accedere</h3>
+        <a href="{% url 'blog_app:login' %}"> QUI</a> per accedere</h3>
 
     {%endif%}
 </div>{%endblock%}

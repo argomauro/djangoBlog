@@ -41,13 +41,13 @@
                         <a class="nav-link" href="{% url 'dashboard'%}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'blog:about' %} ">About</a>
+                        <a class="nav-link" href="{% url 'blog_app:about' %} ">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'admin:index' %} ">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'blog:post_list' %} ">Blog</a>
+                        <a class="nav-link" href="{% url 'blog_app:post_list' %} ">Blog</a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
@@ -55,14 +55,14 @@
                             Benvenuto {{user.username}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{% url 'blog:post_new' %} ">New Post</a>
-                            <a class="dropdown-item" href="{% url 'blog:post_drafts_list' %} ">Draft List</a>
-                            <a class="dropdown-item" href="{% url 'blog:logout' %} ">Logout</a>
+                            <a class="dropdown-item" href="{% url 'blog_app:post_new' %} ">New Post</a>
+                            <a class="dropdown-item" href="{% url 'blog_app:post_drafts_list' %} ">Draft List</a>
+                            <a class="dropdown-item" href="{% url 'blog_app:logout' %} ">Logout</a>
                         </div>
                     </li>
                     {% else %}
                     <li class="nav-item ">
-                        <a class="nav-link " href="{% url 'blog:login' %} ">Login</a>
+                        <a class="nav-link " href="{% url 'blog_app:login' %} ">Login</a>
                     </li>
                     {% endif %}
 

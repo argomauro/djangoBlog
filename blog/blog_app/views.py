@@ -16,30 +16,30 @@ class AboutView(TemplateView):
     
 class PostListView(ListView):
     model = Post
-    
     def get_queryset(self):
-        return Post.objects.filter(publish_date__lte=timezone.now()).order_by('-published_date')
+        qs = super().get_queryset()
+        return qs
 
 class PostDetailView(DetailView):
     model = Post
     
 class PostViewCreate(LoginRequiredMixin,CreateView):
-    redirect_field_name='blog/post_detail.html'
+    redirect_field_name='blog_app/post_detail.html'
     form_class = PostForm
     model = Post
 
 class PostUpdateView(LoginRequiredMixin,UpdateView):
-    redirect_field_name='blog/post_detail.html'
+    redirect_field_name='blog_app/post_detail.html'
     form_class = PostForm
     model = Post
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
-    redirect_field_name='blog/post_list.html'
+    redirect_field_name='blog_app/post_list.html'
     model = Post
     success_url = reverse_lazy('post_list')
 
 class DraftListView(LoginRequiredMixin, ListView):
-    redirect_field_name='blog/post_list.html'
+    redirect_field_name='blog_app/post_list.html'
     model = Post
     
     def get_queryset(self):
@@ -60,7 +60,7 @@ def add_comment_to_post(request,pk):
             return redirect('post_detail',pk=post.pk)
     else:
         form = CommentForm()
-    return render(request,'blog/comment_form.html',{'form':form})
+    return render(request,'blog_app/comment_form.html',{'form':form})
     
 @login_required   
 def comment_approve(request,pk):
