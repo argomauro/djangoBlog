@@ -1,0 +1,8 @@
+{% extends 'blog_app/base.html' %} {% block title%} Logged Out{% endblock%} {% block bodyblock%}
+<div class='jumbotron'>
+    <h2>Log Out</h2>
+    <h3>Il processo di Logout è andato a buon fine</h3>
+    <h3>Clicca
+        <a href="{% url 'blog:login' %}"> qui</a> per riaccedere</h3>
+
+</div>{%endblock%}

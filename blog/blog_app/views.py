@@ -48,7 +48,7 @@ class DraftListView(LoginRequiredMixin, ListView):
 
 ###########################################
 ###########################################
-@login_required()
+@login_required
 def add_comment_to_post(request,pk):
     post = get_object_or_404(Post,pk=pk)
     if request.method == 'POST':
@@ -60,5 +60,27 @@ def add_comment_to_post(request,pk):
             return redirect('post_detail',pk=post.pk)
     else:
         form = CommentForm()
-    return render(request,'blog/comment_form.html')
+    return render(request,'blog/comment_form.html',{'form':form})
     
+@login_required   
+def comment_approve(request,pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    comment.approve()
+    return redirect('post_detail',pk=comment.post.pk)
+
+@login_required
+def comment_remove(request,pk):
+    comment = get_object_or_404(Comment,pk=pk)
+    post_pk = comment.post.pk
+    comment.delete()
+    return redirect('post_detail',pk=post_pk)
+
+@login_required
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.publish()
+    return redirect('post_detail', pk=pk)
+
+def dashboard(request):
+    return render(request, 'registration/dashboard.html', {'section':'dashboard'})
+
