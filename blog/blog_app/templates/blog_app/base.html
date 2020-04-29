@@ -55,7 +55,7 @@
                             Benvenuto {{user.username}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{% url 'blog_app:post_new' %} ">New Post</a>
+                            <a class="dropdown-item" href="{% url 'blog_app:post_create' %} ">New Post</a>
                             <a class="dropdown-item" href="{% url 'blog_app:post_drafts_list' %} ">Draft List</a>
                             <a class="dropdown-item" href="{% url 'blog_app:logout' %} ">Logout</a>
                         </div>

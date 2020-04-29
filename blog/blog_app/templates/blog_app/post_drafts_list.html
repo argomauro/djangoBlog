@@ -5,4 +5,11 @@
 
 <div class='jumbotron'>
     <h2>Post Drafts List</h2>
+    {% for post in post_list %}
+    <div class="post">
+        <p class="date">created: {{ post.create_date|date:'d-m-Y' }}</p>
+        <h1><a href="{% url 'blog_app:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+        <p>{{ post.text|truncatechars:200 }}</p>
+    </div>
+    {% endfor %}
 </div>{%endblock%}

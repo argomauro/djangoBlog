@@ -12,7 +12,7 @@ from django.views.generic import (TemplateView, ListView,
                                   UpdateView, DeleteView)
 
 class AboutView(TemplateView):
-    template_name = 'blog_app/about.html'
+    template_name = 'about.html'
     
 class PostListView(ListView):
     model = Post
@@ -23,27 +23,32 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
     
-class PostViewCreate(LoginRequiredMixin,CreateView):
-    redirect_field_name='blog_app/post_detail.html'
+class PostCreateView(LoginRequiredMixin,CreateView):
+    template_name = 'post_form.html'
     form_class = PostForm
-    model = Post
+    success_url = reverse_lazy('blog_app:post_list')
+
 
 class PostUpdateView(LoginRequiredMixin,UpdateView):
-    redirect_field_name='blog_app/post_detail.html'
-    form_class = PostForm
+    redirect_field_name='post_form.html'
     model = Post
+    fields = '__all__'
+
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
-    redirect_field_name='blog_app/post_list.html'
+    #redirect_field_name='post_list.html'
     model = Post
-    success_url = reverse_lazy('post_list')
+    success_url = reverse_lazy('blog_app:post_list')
 
 class DraftListView(LoginRequiredMixin, ListView):
-    redirect_field_name='blog_app/post_list.html'
+    template_name='post_drafts_list.html'
     model = Post
     
     def get_queryset(self):
-        return Post.objects.filter(publish_date__isnull=True).order_by('created_date')
+        qs = super().get_queryset().filter(publish_date__isnull=True).order_by('create_date')
+        print('Elementi trovati: ' + str(qs.count()))
+        return qs
+    
     
 
 ###########################################
@@ -57,29 +62,29 @@ def add_comment_to_post(request,pk):
             comment = form.save(commit=False)
             comment.post = post
             comment.save()
-            return redirect('post_detail',pk=post.pk)
+            return redirect('blog_app:post_detail',pk=post.pk)
     else:
         form = CommentForm()
-    return render(request,'blog_app/comment_form.html',{'form':form})
+    return render(request,'comment_form.html',{'form':form})
     
 @login_required   
 def comment_approve(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
     comment.approve()
-    return redirect('post_detail',pk=comment.post.pk)
+    return redirect('blog_app:post_detail',pk=comment.post.pk)
 
 @login_required
 def comment_remove(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
     post_pk = comment.post.pk
     comment.delete()
-    return redirect('post_detail',pk=post_pk)
+    return redirect('blog_app:post_detail',pk=post_pk)
 
 @login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
-    return redirect('post_detail', pk=pk)
+    return redirect('blog_app:post_detail', pk=pk)
 
 def dashboard(request):
     return render(request, 'registration/dashboard.html', {'section':'dashboard'})

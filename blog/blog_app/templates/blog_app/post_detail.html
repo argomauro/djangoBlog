@@ -4,5 +4,44 @@
 <div class="shadow"></div>
 
 <div class='jumbotron'>
-    <h2>Post Detail</h2>
+    <h1 class='posttitle loader'>{{ post.title }}</h1>
+
+    {% if post.publish_date %}
+    <div class="date postdate">
+        <h3>{{ post.publish_date }}</h3>
+    </div>
+
+    {% else %}
+    <a class="btn btn-default" href="{% url 'blog_app:post_publish' pk=post.pk %}">Pubblica</a> {% endif %}
+
+    <p class='postcontent'>{{ post.text|safe|linebreaksbr }}</p>
+
+
+    {% if user.is_authenticated %}
+    <a class="btn btn-primary" href="{% url 'blog_app:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil">EDIT POST</span></a>
+    <a class="btn btn-primary" href="{% url 'blog_app:post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-remove">DELETE POST</span></a> {% endif %}
+
+
+
+    <hr>
+    <a class="btn btn-primary btn-comment" href="{% url 'blog_app:add_comment_to_post' pk=post.pk %}">Add comment</a>
+    <div class="container">
+
+
+        {% for comment in post.comments.all %}
+
+        <p>{{ comment.text|safe|linebreaks }}</p>
+        <p>Posted by: <strong>{{ comment.author }}</strong></p>
+        <br> {% if user.is_authenticated %}
+        <p>{{ comment.created_date }} </p>
+        <p>{% if comment.approved_comments %}</p>
+        <a class="btn btn-primary" href="{% url 'blog_app:comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove">Remove Comment</span></a>
+        <p>{%else%}</p>
+        <a class="btn btn-primary" href="{% url 'blog_app:comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok">Approve Comment</span></a>
+        <p>{% endif %}</p>
+        <p>{% endif %}</p>
+        {% empty %}
+        <p>No comments posted.</p>
+        {% endfor %}
+    </div>
 </div>{%endblock%}
