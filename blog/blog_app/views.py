@@ -12,7 +12,7 @@ from django.views.generic import (TemplateView, ListView,
                                   UpdateView, DeleteView)
 
 class AboutView(TemplateView):
-    template_name = 'blog/about.html'
+    template_name = 'blog_app/about.html'
     
 class PostListView(ListView):
     model = Post
@@ -84,3 +84,7 @@ def post_publish(request, pk):
 def dashboard(request):
     return render(request, 'registration/dashboard.html', {'section':'dashboard'})
 
+
+# HTTP Error 400
+def handler404(request, exception):
+    return render(request, 'blog_app/404.html', locals())
