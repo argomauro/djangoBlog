@@ -26,8 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog_app.apps.BlogAppConfig',
     'django.contrib.admin',
-
-
+    'taggit',
 
 ]
 
@@ -72,6 +71,9 @@ DATABASES = {
     }
 }
 
+
+# CONFIGURAZIONE EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

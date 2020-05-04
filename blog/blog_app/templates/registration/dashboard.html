@@ -1,4 +1,4 @@
-{% extends 'blog_app/base.html' %} {% block title%} Dashboard dell'utente{% endblock%} {% block bodyblock%}
+{% extends 'blog_app/base.html' %}{% load blog_tags %} {% block title%} Dashboard dell'utente{% endblock%} {% block bodyblock%}
 
 
 <div class="shadow"></div>
@@ -7,6 +7,7 @@
     <h2>Non avere paura del CoronaVirus</h2>
     {% if request.user.is_authenticated %}
     <h3>Benvenuto {{request.user.username}}</h3>
+    <h2>Attualmente sulla piattaforma ci sono {% numero_posts %}</h2>
     <h3>Esci
         <a href="{% url 'blog_app:logout' %}"> clicca qui</a> </h3>
     {% else %}

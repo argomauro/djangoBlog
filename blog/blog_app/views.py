@@ -6,7 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
-
+from django.core.mail import send_mail
+from taggit.models import Tag
 from django.views.generic import (TemplateView, ListView, 
                                   CreateView, DetailView,
                                   UpdateView, DeleteView)
@@ -16,9 +17,11 @@ class AboutView(TemplateView):
     
 class PostListView(ListView):
     model = Post
+    paginate_by = 2
     def get_queryset(self):
         qs = super().get_queryset()
         return qs
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -43,6 +46,8 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 class DraftListView(LoginRequiredMixin, ListView):
     template_name='post_drafts_list.html'
     model = Post
+    paginate_by = 2
+
     
     def get_queryset(self):
         qs = super().get_queryset().filter(publish_date__isnull=True).order_by('create_date')
@@ -66,7 +71,9 @@ def add_comment_to_post(request,pk):
     else:
         form = CommentForm()
     return render(request,'comment_form.html',{'form':form})
-    
+
+
+
 @login_required   
 def comment_approve(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
@@ -84,6 +91,8 @@ def comment_remove(request,pk):
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
+    #INVIAMO LA EMAIL DI CONFERMA PUBBLICAZIONE
+    send_mail('subjetc','Messagio','margoneto@publisys.it',('maurizio.argoneto@gmail.com',), fail_silently=True)
     return redirect('blog_app:post_detail', pk=pk)
 
 def dashboard(request):
