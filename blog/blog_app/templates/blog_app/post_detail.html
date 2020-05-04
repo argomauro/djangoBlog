@@ -6,7 +6,7 @@
 <div class='jumbotron'>
     <h1 class='posttitle loader'>{{ post.title }}</h1>
 
-    {% if post.publish_date %}
+    {% include 'messages.html' %} {% if post.publish_date %}
     <div class="date postdate">
         <h3>{{ post.publish_date }}</h3>
     </div>

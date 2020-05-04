@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from taggit.models import Tag
+from django.contrib import messages
+
 from django.views.generic import (TemplateView, ListView, 
                                   CreateView, DetailView,
                                   UpdateView, DeleteView)
@@ -29,7 +31,6 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin,CreateView):
     template_name = 'post_form.html'
     form_class = PostForm
-    success_url = reverse_lazy('blog_app:post_list')
 
 
 class PostUpdateView(LoginRequiredMixin,UpdateView):
@@ -78,6 +79,7 @@ def add_comment_to_post(request,pk):
 def comment_approve(request,pk):
     comment = get_object_or_404(Comment,pk=pk)
     comment.approve()
+    messages.info(request, 'Commento approvato con successo')
     return redirect('blog_app:post_detail',pk=comment.post.pk)
 
 @login_required
@@ -92,6 +94,7 @@ def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
     #INVIAMO LA EMAIL DI CONFERMA PUBBLICAZIONE
+    messages.info(request, 'Post pubblicato con successo')
     send_mail('subjetc','Messagio','margoneto@publisys.it',('maurizio.argoneto@gmail.com',), fail_silently=True)
     return redirect('blog_app:post_detail', pk=pk)
 

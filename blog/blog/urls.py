@@ -9,5 +9,6 @@ urlpatterns = [
     path('blog/', include('blog_app.urls')),
     path('', blogview.dashboard, name='dashboard'),
     path('feed/', LatestEntriesFeed(), name='post_feed'),
+    path('social-auth/', include('social_django.urls', namespace='social'))
 ]
 handler400= 'blog_app.views.handler404'

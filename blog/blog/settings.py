@@ -11,9 +11,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'blog_app/templates/blog_app')
 SECRET_KEY = 'k6osz!5835c0ma%cdjoy8y2f)8mqhf%!#*x%otis=b^r%f%7-='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['argomauro.com','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'blog_app.apps.BlogAppConfig',
     'django.contrib.admin',
     'taggit',
+    'social_django',
+    'django_extensions',
 
 ]
 
@@ -39,6 +41,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.yahoo.YahooOpenId',
+)
 
 ROOT_URLCONF = 'blog.urls'
 
