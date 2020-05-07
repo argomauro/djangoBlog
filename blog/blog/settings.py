@@ -11,12 +11,35 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'blog_app/templates/blog_app')
 SECRET_KEY = 'k6osz!5835c0ma%cdjoy8y2f)8mqhf%!#*x%otis=b^r%f%7-='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['argomauro.com','127.0.0.1', 'localhost']
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '629209300130-l3okro7atjdaglud0d3kh9lo120p3a2e.apps.googleusercontent.com'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'WMjWXxv4GY1e26_O4VexY4xP'
 # Application definition
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'werkzeug': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -49,6 +72,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.yahoo.YahooOpenId',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 ROOT_URLCONF = 'blog.urls'
@@ -64,6 +88,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -124,8 +150,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-print('STATIC_ROOT: ' +STATIC_ROOT)
-print('STATIC_URL: ' +STATIC_URL)
+
 
 LOGIN_REDIRECT_URL = 'blog_app:dashboard'
 #LOGOUT_REDIRECT_URL = 'dashboard'
